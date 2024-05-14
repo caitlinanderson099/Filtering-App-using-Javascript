@@ -1,5 +1,6 @@
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
+
 /* Global Reset */
 * {
     margin: 0;
@@ -8,13 +9,15 @@
     font-family: "Freeman", sans-serif;
 }
 
+/* Header Section */
 header {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 120px 0;
     color: white;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.7)), url(/img/header-bg.webp); /* this is to make the image darken */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(/img/header-bg.webp);
+    /* this is to make the image darken */
     background-position: center;
     background-size: cover;
 
@@ -25,6 +28,7 @@ header {
     }
 }
 
+/* Container for the filters */
 .filter-container {
     display: flex;
     justify-content: center;
@@ -52,6 +56,15 @@ header {
     }
 }
 
+
+.sorting-text {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1em;
+}
+
+
+/* Results that are populated using JS */
 .results {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -59,69 +72,73 @@ header {
     padding: 30px 60px 120px 60px;
 }
 
+/* The text for no results found when results are not found */
 .no-results {
     text-align: center;
     grid-column: 1/-1;
 }
 
+/* Property Cards with nested styling */
 .property {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     background-color: white;
     box-shadow: 2px 3px 5px 2px rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 2px 3px 5px 2px rgba(0,0,0,0.25);
-    -moz-box-shadow: 2px 3px 5px 2px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 2px 3px 5px 2px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 2px 3px 5px 2px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease;
+
+    .property-image {
+        width: 100%;
+        object-fit: cover;
+        height: 250px;
+    }
+
+    .property-details {
+        padding: 16px;
+
+        h2 {
+            margin: 8px 0;
+            font-weight: 500;
+            font-size: 20px;
+        }
+
+        p {
+            font-weight: 300;
+            font-size: 16px;
+        }
+    }
+
+    .property-amenities {
+        display: flex;
+        gap: 8px;
+
+        p {
+            font-weight: 400;
+            color: rgb(155, 162, 169);
+            font-size: 16px;
+        }
+    }
+
+    .more-details {
+        display: flex;
+        justify-content: space-between;
+        margin: 8px 0;
+
+        h4 {
+            color: #33924a;
+        }
+    }
 }
 
+/* Property Cards hover styling */
 .property:hover {
     scale: 1.1;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-.property-image {
-    width: 100%;
-    object-fit: cover;
-    height: 250px;
-}
-
-.property-details {
-    padding: 16px;
-
-    h2 {
-        margin: 8px 0;
-        font-weight: 500;
-        font-size: 20px;
-    }
-
-    p {
-        font-weight: 300;
-        font-size: 16px;
-    }
-}
-
-.property-amenities {
-    display: flex;
-    gap: 8px;
-
-    p {
-        font-weight: 400;
-        color: rgb(155, 162, 169);
-        font-size: 16px;
-    }
-}
-
-.more-details {
-    display: flex;
-    justify-content: space-between;
-    margin: 8px 0;
-
-    h4 {
-        color: #33924a;
-    }
-}
 
 /* Swiper */
 .swiper {
@@ -142,4 +159,156 @@ header {
     background: antiquewhite;
     width: 16px;
     height: 16px;
+}
+
+
+/* Modal styling */
+dialog {
+    z-index: 10;
+    position: fixed;
+    width: 40%;
+    height: 60vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 16px;
+    position: relative;
+    padding-bottom: 42px;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+}
+
+body.modal-open {
+    overflow: hidden;
+    /* this is to prevent scroll when the modal is open */
+}
+
+
+#closeModal {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background-color: #33924a;
+    border-radius: 50%;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    h2 {
+        margin-top: 30px;
+        margin-bottom: 8px;
+    }
+
+    h4 {
+        color: #33924a;
+        font-size: 24px;
+        margin-top: 16px;
+    }
+
+    .modal-ammenities {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 30px;
+        margin-top: 16px;
+    }
+
+    .property-description {
+        font-weight: 300;
+        margin-top: 16px;
+        padding: 0px 60px;
+        line-height: 150%;
+    }
+
+    .booking-button {
+        padding: 12px 16px;
+        margin-top: 30px;
+        background-color: #33924a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .booking-button:hover {
+        color: #33924a;
+        background-color: white;
+        border: 1px solid #33924a;
+        transition: all 0.3s ease;
+    }
+}
+
+
+
+
+/* Media Queries */
+
+@media only screen and (max-width: 1200px) {
+    header h1 {
+        font-size: 4em;
+        text-align: center;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: center;
+
+
+        .filter {
+
+            select {
+                width: 600px;
+            }
+        }
+    }
+
+    .results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    dialog {
+        width: 80%;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    .results {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-container select {
+        max-width: 300px;
+    }
+
+    dialog {
+        height: 80vh;
+    }
+
+    .modal-content .property-description {
+        padding: 0 32px;
+    }
 }

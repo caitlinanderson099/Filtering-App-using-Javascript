@@ -1,6 +1,5 @@
 // Property Card Data
-const properties = [
-    {
+const properties = [{
         id: 1,
         name: "Cozy Cottage",
         location: "Gisborne",
@@ -264,10 +263,28 @@ function filterProperties() {
 }
 
 // Sort Results - sort by price (lowest to highest)
+function sortPropertiesByPriceLowToHigh(properties) {
+    return properties.sort((a, b) => {
+        const priceA = parseFloat(a.price.replace(/\$/g, '').replace(/,/g, ''));
+        const priceB = parseFloat(b.price.replace(/\$/g, '').replace(/,/g, ''));
+        return priceA - priceB;
+    });
+};
+
+function sortedPropertiesByPriceHighToLow(properties) {
+    return properties.sort((a, b) => {
+        const priceA = parseFloat(a.price.replace(/\$/g, '').replace(/,/g, ''));
+        const priceB = parseFloat(b.price.replace(/\$/g, '').replace(/,/g, ''));
+        return priceB - priceA;
+    });
+}
+
 
 // Filter and then populate the results:
 function filterAndPopulateResults() {
     const filteredProperties = filterProperties();
+    // include the sort properties before populating:
+    const sortedProperties = sortPropertiesByPriceLowToHigh(filteredProperties); // this is sorting the filtered properties from the previous line of code
     populateResults(filteredProperties);
 }
 
@@ -320,6 +337,7 @@ function populateResults(filteredResults) {
 
             // this is appending the propertyCardHTML into the resultsDiv
             resultsDiv.innerHTML += propertyCardHTML;
+            attachModalToImages(); // attaching event listeners straight after population
 
         });
     }
@@ -330,10 +348,68 @@ const swiper = new Swiper('.swiper', {
     // Optional parameters
     direction: 'vertical',
     loop: true,
-  
+
     // If we need pagination
     pagination: {
-      el: '.swiper-pagination',
-      clickable: true, // this enables clickable pagination bullets
+        el: '.swiper-pagination',
+        clickable: true, // this enables clickable pagination bullets
     },
-  });
+});
+
+
+//JS for the card modals
+
+// this attaches the Click Event to each image and open the modal
+
+function attachModalToImages() {
+    // step 1: grab all of the images
+    const images = document.querySelectorAll('.property-image');
+    // step 2: grab the detailsModal from the html
+    const detailsModal = document.getElementById('detailsModal');
+
+    // step 3: run a 'for' loop over the images ARRAY to add a Click Event to each image
+    for (let i = 0; i < images.length; i++) {
+        images[i].addEventListener('click', function (event) {
+            console.log('image click is working');
+            detailsModal.showModal(); // this opens the modal
+            // adding the close function here, calling on it here
+            closeDetailsModal();
+            // populate the modal with the correct info 
+            console.log(event.target.getAttribute('value'));
+            // populateModal(event.target.getAttribute('value'));
+            populateModal(1);
+        })
+    }
+}
+
+// this closes the modals
+function closeDetailsModal() {
+    // step 4: grab the closeModal button
+    const close = document.getElementById('closeModal');
+    // step 5: grab the modal
+    const detailsModal = document.getElementById('detailsModal');
+
+    // step 6: add click event on closeModal to close the modal
+    close.addEventListener('click', function () {
+        detailsModal.close();
+    })
+}
+
+
+function populateModal(imageId) {
+    // Get the modal:
+    const detailsModal = document.querySelector('.modal-content');
+
+    detailsModal.innerHTML = `
+        <img src="${properties[imageId - 1].image}" alt="${properties[imageId - 1].name} image 1">
+        <h2>${properties[imageId - 1].name}</h2>
+        <p>${properties[imageId - 1].location}</p>
+        <h4>${properties[imageId - 1].price}</h4>
+        <div class="modal-ammenities">
+            <p>${properties[imageId - 1].bedrooms} <i class="fa-solid fa-bed"></i></p>
+            <p>${properties[imageId - 1].bathrooms} <i class="fa-solid fa-bath"></i></p>
+        </div>
+        <p class="property-description">${properties[imageId - 1].description}</p>
+        <button class="booking-button">Enquire Now</button>
+    `
+}
