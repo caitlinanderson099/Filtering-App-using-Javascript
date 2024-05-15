@@ -63,6 +63,42 @@ header {
     font-size: 1em;
 }
 
+/* Sorting */
+.sorting-container {
+    background-color: #1f1f1f;
+    padding: 30px 0;
+}
+
+.sorting-container p {
+    text-align: center;
+    color: white;
+}
+
+.sorting-btn-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sorting-button {
+    border: 1px solid white;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: white;
+    border-radius: 16px;
+    background-color: #1f1f1f;
+    transition: all 0.3s ease;
+}
+
+.sorting-button:hover {
+    background-color: white;
+    color: #1f1f1f;
+    transition: all 0.3s ease;
+}
+
+
 
 /* Results that are populated using JS */
 .results {
